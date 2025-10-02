@@ -1,0 +1,6 @@
+Iteration, Execution Time (s), CPU Usage Increase (%), Memory Usage Increase (MB)
+1, 98.26, -11.70, 22.30
+2, 96.83, 24.60, 5.88
+3, 95.65, 25.10, 6.25
+4, 97.87, 22.80, -0.05
+5, 95.44, 21.60, 4.62
