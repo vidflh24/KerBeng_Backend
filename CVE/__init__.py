@@ -3,4 +3,4 @@
 from .CVE22_46169 import CVE22_46169
 from .CVE22_14847 import CVE22_14847
 from .CVE12_2122 import CVE12_2122
-
+from .pgadmin import CVE_pgadmin_0001
