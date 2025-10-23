@@ -20,21 +20,22 @@ class CVE12_2122(APentest):
     def banner(self) -> None:
         ban = CBanner()
         ban.setBanner()
-        ipAddrs = ban.makeChoice()
-        self._targets = ipAddrs
+        #ipAddrs = ban.makeChoice()
+        #self._targets = ipAddrs
         del ban
         #print(f"Your target is {self.getTargets}")
 
-    def infoGathering(self, params):
-        params = {"ipAddrs":f"{self.getTargets}"}
-        return super().infoGathering(params)
-
     def scanning(self, params) -> Scanner:
+        if not self.getTargets:
+            print(f"Invalid target ({self.getTargets})")
+            exit(0)
+
         print(f"Auto Pentester says I'm scanning target {self.getTargets} from {self.getLHost}")
         for ip in self.getTargets:
             if pu.isPrivateIP(ip) == True:
                 pindai = NmapScanner()
-            else: pindai = Shodan()
+            else: 
+                pindai = Shodan()
             scan_result = pindai.scanTarget(ip)
             """ if scan_result['success']:
                 print("[+] Nmap output: ")

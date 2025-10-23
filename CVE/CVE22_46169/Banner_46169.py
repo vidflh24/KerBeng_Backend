@@ -9,10 +9,10 @@ class CBanner(Banner):
     def setBanner(self) -> None:
         textBanner = pyfiglet.figlet_format(self._textBanner)
         print(textBanner)
-        print("Chose the execution mode: ")
-        print("1. Local")
-        print("2. PUblic")
+        #print("Chose the execution mode: ")
+        #print("1. Local")
+        #print("2. PUblic")
     
     def makeChoice(self) -> list:
-        choice = input("Enter your choice (1 or 2): ")
-        return choice
+        #choice = input("Enter your choice (1 or 2): ")
+        return None

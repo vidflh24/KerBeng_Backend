@@ -20,16 +20,24 @@ class CVE22_46169Cacti1(APentest):
     def banner(self) -> None:
         ban = CBanner()
         ban.setBanner()
-        del ban
+        #del ban
         #choice = ban.makeChoice()
+        del ban
         #print(f"Your choice is {choice}")
 
     def scanning(self, params) -> Scanner:
-        print(f"CVE22_46169Cacti says I'm scanning target {self.getTargets} from {self.getLHost}")
+        if not self.getTargets:
+            print(f"Invalid target ({self.getTargets})")
+            exit(0)
+
+        print(f"CVE22_46169 Cacti says I'm scanning target {self.getTargets} from {self.getLHost}")
         for ip in self.getTargets:
-            if pu.isPrivateIP(ip) == True:
+            print("[DEBUG] pu.isPrivateIP(ip): ",pu.isPrivateIP(ip))
+            if pu.isPrivateIP(ip):
                 pindai = NmapScanner()
-            else: pindai = Shodan()
+            else:
+                print("Target is not a Private IP")
+                exit(0)
             pindai.scanTarget(ip)
             self.scnOutFile = pindai.outScanFile
         del pindai
@@ -49,16 +57,19 @@ class CVE22_46169Cacti1(APentest):
         vulnAnls.targets = self.enumOutFile
         vulnAnls.bufHub = self.bufHub
         vulnAnls.startAnalising()
+        print("[DEBUG] vulnAnls.listVulners: ", vulnAnls.listVulners)
         self.setItem("vulnList", vulnAnls.listVulners)
-        """ for index, item in enumerate(vulnAnls.listVulners):
+        for index, item in enumerate(vulnAnls.listVulners):
             print(f"index: {index}, value: {item}")
-        print(self.bufHub) """
+        print(self.bufHub)
         del vulnAnls
 
     def exploitingTarget(self, params) -> Exploit:
         print("CVE22_46169Cacti says I'm exploiting network target")
         exp = CExploit()
         exp.lHost = self.getLHost
+        print("[DEBUG] lhost for exploiting: ", self.getLHost)
+        print("[DEBUG] getItem(vulnList) for exploiting: ", self.getItem("vulnList"))
         exp.makePayload(self.getItem("vulnList"))
         exp.startExploit()
         del exp
