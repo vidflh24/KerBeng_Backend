@@ -1,6 +1,9 @@
 from Metode import *
+from utils import Logger
 import pprint
 import re
+
+log = Logger()
 
 class CEnum(Enumerator):
 
@@ -8,18 +11,16 @@ class CEnum(Enumerator):
         super().__init__()
 
     def enumTarget(self):
-        print("[DEBUG] Starting Nmap parsing...")
         results = self.parse_nmap_results(self.sourceFile)
-        print("[DEBUG] Finished parsing. Now saving results...")
         self.save_results_to_txt(results)
-        print("[DEBUG] Enum complete. Output written to:", self._outEnumFile)
+        log.debugger(self._outEnumFile)
 
     def parse_nmap_results(self, filename):
         open_ports = {}
         if filename is None:
             raise ValueError("Filename cannot be None. Please provide a valid file path")
         
-        print(f"[DEBUG] Opening Nmap file: {filename}")
+        log.debugger(filename)
         ip_re = re.compile(r'\((\d{1,3}(?:\.\d{1,3}){3})\)')  # matches (127.0.0.1)
         ip_simple_re = re.compile(r'(\d{1,3}(?:\.\d{1,3}){3})')  # matches 127.0.0.1 anywhere
 
@@ -49,7 +50,7 @@ class CEnum(Enumerator):
                     # normalize: ensure we don't keep parentheses or surrounding text
                     ip = ip.strip("()")
                     open_ports[ip] = []
-                    print(f"\033[92m[DEBUG] Found/normalized target IP: {ip}\033[0m")
+                    log.debugger(ip)
                     current_port_info = None
 
                 elif "/tcp" in line and ip:
@@ -119,15 +120,15 @@ class CEnum(Enumerator):
         # Pretty-print all parsed results for final inspection
         print("\n\033[95m[DEBUG] Final parsed Nmap results:\033[0m")
         pprint.pprint(open_ports, sort_dicts=False)
-        print("open_ports: ", open_ports)
+        log.debugger(open_ports)
 
         return open_ports
 
     def save_results_to_txt(self, results):
-        print(f"[DEBUG] Writing parsed open ports to: {self._outEnumFile}")
+        log.debugger(self._outEnumFile)
         with open(self._outEnumFile, "w") as file:
             for ip, ports in results.items():
-                print(f"[DEBUG] IP: {ip}")
+                log.debugger(ip)
                 for port in ports:
                     if port["state"] == "open":
                         print(f"   [DEBUG] Open port: {port['port']} ({port['service']})")

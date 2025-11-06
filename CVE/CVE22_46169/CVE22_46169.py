@@ -7,6 +7,9 @@ from .Scanner_46169 import NmapScanner
 from .Exploit_46169 import CExploit
 from .Report_46169 import CReport
 from utils import PentestUtils as pu
+from utils import Logger
+
+log = Logger()
 
 class CVE22_46169Cacti1(APentest):
     """
@@ -32,7 +35,7 @@ class CVE22_46169Cacti1(APentest):
 
         print(f"CVE22_46169 Cacti says I'm scanning target {self.getTargets} from {self.getLHost}")
         for ip in self.getTargets:
-            print("[DEBUG] pu.isPrivateIP(ip): ",pu.isPrivateIP(ip))
+            log.debugger(pu.isPrivateIP(ip))
             if pu.isPrivateIP(ip):
                 pindai = NmapScanner()
             else:
@@ -57,7 +60,7 @@ class CVE22_46169Cacti1(APentest):
         vulnAnls.targets = self.enumOutFile
         vulnAnls.bufHub = self.bufHub
         vulnAnls.startAnalising()
-        print("[DEBUG] vulnAnls.listVulners: ", vulnAnls.listVulners)
+        log.debugger(vulnAnls.listVulners)
         self.setItem("vulnList", vulnAnls.listVulners)
         for index, item in enumerate(vulnAnls.listVulners):
             print(f"index: {index}, value: {item}")
@@ -68,8 +71,8 @@ class CVE22_46169Cacti1(APentest):
         print("CVE22_46169Cacti says I'm exploiting network target")
         exp = CExploit()
         exp.lHost = self.getLHost
-        print("[DEBUG] lhost for exploiting: ", self.getLHost)
-        print("[DEBUG] getItem(vulnList) for exploiting: ", self.getItem("vulnList"))
+        log.debugger(self.getLHost)
+        log.debugger(self.getItem("vulnList"))
         exp.makePayload(self.getItem("vulnList"))
         exp.startExploit()
         del exp
