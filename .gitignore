@@ -1,5 +1,6 @@
 __pycache__
 myenv/
+test/
 enum_*
 nmap_*
 vulnScanReport.txt

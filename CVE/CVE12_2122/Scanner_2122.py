@@ -1,6 +1,9 @@
 from Metode import *
+from pathlib import Path
+from utils import Logger
 import keyring
 
+log = Logger()
 
 class NmapScanner(Scanner):
 
@@ -15,19 +18,29 @@ class NmapScanner(Scanner):
         self.targetIP = [prm]
         self.outScanParam = self._scanParams['oputFile']
         self.outScanFile = self._scanParams['oputFile']
-        self.params = self._scanParams['scnParams']
+        #self.params = self._scanParams['scnParams']
+        Path(self.outScanFile).parent.mkdir(parents=True, exist_ok=True)
         #print(f"target IP: {self.targetIP}")
-        nmap_command = self.params
-        nmap_command.extend(self.targetIP)
-        nmap_command.extend(self.outScanParam)
+        base_params = self._scanParams["scnParams"].copy()
+        #nmap_command = self.params
+        #nmap_command.extend(self.targetIP)
+        #nmap_command.extend(self.outScanParam)
         #print(f"nmap_command is: {nmap_command}")
+        nmap_command = (
+            base_params
+            + ["-oN", self.outScanFile]   # tell nmap to write normal output to file
+            + self.targetIP
+        )
         result_data = {
             'success' : False,
             'output' : '',
             'error' : '',
             'message' : ''
         }
+        log.debugger(nmap_command)
         sudo_pass = keyring.get_password("system", "sudo")
+        #print(f"[DEBUG] sudo_pass from keyring: {repr(sudo_pass)}")
+        
         try:
             result = subprocess.run(nmap_command,
                                     input=sudo_pass,

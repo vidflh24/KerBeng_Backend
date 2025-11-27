@@ -1,4 +1,7 @@
 from Metode import *
+from utils import Logger
+
+log = Logger()
 
 class CEnum(Enumerator):
 
@@ -7,6 +10,7 @@ class CEnum(Enumerator):
 
     def enumTarget(self):
         results = self.parse_nmap_results(self.sourceFile)
+        log.debugger(self.sourceFile)
         print(f"\nhasilparse {results}\n")
         self.save_results_to_txt(results)
 

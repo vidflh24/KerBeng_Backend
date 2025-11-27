@@ -16,7 +16,7 @@ class CReport(Report):
         header_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
         
         # Add the logo
-        logo_path = "Logo Horizontal.png"
+        logo_path = "./assets/Logo Horizontal.png"
         logo_height = Cm(1.5)
         run = header_paragraph.add_run()
         run.add_picture(logo_path, height=logo_height)
@@ -26,7 +26,7 @@ class CReport(Report):
 
     def creat_cover_page(self):
         # Add the logo image
-        self._document.add_picture('ugm.png', width=Inches(2))
+        self._document.add_picture('/assets/ugm.png', width=Inches(2))
         self._document.paragraphs[-1].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # Center align the image
         
         # Add spacer

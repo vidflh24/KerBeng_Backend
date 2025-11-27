@@ -7,6 +7,9 @@ from .Scanner_2122 import NmapScanner
 from .Exploit_2122 import CExploit
 from .Report_2122 import CReport
 from utils import PentestUtils as pu
+from utils import Logger
+
+log = Logger()
 
 class CVE12_2122(APentest):
     """
@@ -37,13 +40,15 @@ class CVE12_2122(APentest):
             else: 
                 pindai = Shodan()
             scan_result = pindai.scanTarget(ip)
-            """ if scan_result['success']:
-                print("[+] Nmap output: ")
-                print (scan_result['output'])
-            else:
-                print("[-] Scaned failed")
-                print(scan_result['message'])
-                print(scan_result['error']) """
+
+            if not scan_result["success"]:
+                print("[-] Scan failed")
+                print(scan_result["message"])
+                print(scan_result["error"])
+                # optionally: exit / raise, so we don't go to enumeration
+                raise RuntimeError("Scan failed, aborting pentest flow")
+
+            log.debugger(pindai.outScanFile)
             self.scnOutFile = pindai.outScanFile
         del pindai
 

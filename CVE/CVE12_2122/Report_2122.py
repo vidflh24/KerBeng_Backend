@@ -35,7 +35,7 @@ class CReport(Report):
         header_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
         
         # Add the logo
-        logo_path = "Logo Horizontal.png"
+        logo_path = "./assets/Logo Horizontal.png"
         logo_height = Cm(1.5)
         run = header_paragraph.add_run()
         run.add_picture(logo_path, height=logo_height)
