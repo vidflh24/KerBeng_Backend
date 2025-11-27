@@ -1,3 +1,4 @@
+colorama==0.4.6
 jaraco.classes==3.4.0
 jaraco.context==6.0.1
 jaraco.functools==4.3.0
@@ -8,3 +9,4 @@ pyfiglet==1.0.4
 python-docx==1.2.0
 pywin32-ctypes==0.2.3
 typing_extensions==4.15.0
+
