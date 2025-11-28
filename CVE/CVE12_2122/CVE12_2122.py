@@ -71,12 +71,15 @@ class CVE12_2122(APentest):
         vulnAnls.outAnalFile = "CVE/CVE12_2122/analyst_results.txt"
         vulnAnls.startAnalising()
         self.setItem("vulnList", vulnAnls.listVulners)
+        log.debugger(vulnAnls.listVulners)
+        log.debugger(vulnAnls.targets)
         del vulnAnls
 
     def exploitingTarget(self, params) -> Exploit:
         print("Auto Pentester says I'm exploiting network target")
         exp = CExploit()
         exp.outExpFile = "CVE/CVE12_2122/"
+        log.debugger(self.getItem("vulnList"))
         exp.makePayload(self.getItem("vulnList"))
         exp.startExploit()
         del exp

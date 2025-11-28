@@ -1,5 +1,8 @@
 from Metode import *
 import re
+from utils import Logger
+
+log = Logger()
 
 class CVulnAnalist(VulnerAnalist):
 
@@ -31,8 +34,11 @@ class CVulnAnalist(VulnerAnalist):
                     version = f"{data[2]} {data[3]}"
                     print(f"Processing Check Vulnerability: {ip} {port} {version}")
                     self.isVulner = False
+                    print("STEPPING TO VERSION CHECK")
+                    log.debugger(self.is_version_vulnerable(ip, version, service))
                     if self.is_version_vulnerable(ip, version, service):
                         vulnList = [ip, port]
+                        log.debugger(vulnList)
                         self.addToList(vulnList)
                         print(f"Target {self.listVulners} is seem to be vulnerable :)")
 

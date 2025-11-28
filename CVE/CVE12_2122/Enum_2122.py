@@ -25,7 +25,12 @@ class CEnum(Enumerator):
             current_port_info = None
             for line in lines:
                 if "Nmap scan report for" in line:
-                    ip = line.split()[-1].strip()
+                    raw = line.split()[-1].strip()
+                    # check if Nmap gives: "hostname (<IP>)"
+                    if raw.startswith("(") and raw.endswith(")"):
+                        ip = raw[1:-1]  # remove parentheses
+                    else:
+                        ip = raw
                     open_ports[ip] = []
                     open_ports['mysql'] = []
                 elif "/tcp" in line and "mysql" in line.lower() and ip:

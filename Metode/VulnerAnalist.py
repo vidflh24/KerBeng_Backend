@@ -3,6 +3,10 @@ from abc import ABC, abstractmethod
 from typing import Any
 import subprocess
 
+from utils import Logger
+
+log = Logger()
+
 class VulnerAnalist(ABC):
     """
     VulnerAnalist interface merupakan abstract class yang bertugas melakukan
@@ -28,6 +32,7 @@ class VulnerAnalist(ABC):
             raise ValueError("Seluruh items harus berupa lists.")
 
     def addToList(self, item_baru):
+        log.debugger(item_baru)
         if isinstance(item_baru, list):
             self._listVulners.append(item_baru)
         else:

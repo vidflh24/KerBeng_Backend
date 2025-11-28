@@ -15,6 +15,7 @@ class NmapScanner(Scanner):
         }
     
     def scanTarget(self, prm):
+        log.debugger(prm)
         self.targetIP = [prm]
         self.outScanParam = self._scanParams['oputFile']
         self.outScanFile = self._scanParams['oputFile']

@@ -39,7 +39,8 @@ current_running_job = None
 # ====================================================================
 @app.before_request
 def debug_session():
-    print(f"[before_request] path={request.path}, session={dict(session)}")
+    #print(f"[before_request] path={request.path}, session={dict(session)}")
+    pass
 
 def load_all_jobs():
     """Load semua jobs dari folder jobs/"""

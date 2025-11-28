@@ -1,1 +1,23 @@
-# Nmap 7.98 scan initiated Thu Nov 27 08:17:06 2025 as: nmap -sV -sC -Pn -O -oN CVE/CVE12_2122/nmap_results.txt 192.168.100.178
+# Nmap 7.98 scan initiated Fri Nov 28 19:27:29 2025 as: nmap -sV -sC -Pn -O -oN CVE/CVE12_2122/nmap_results.txt 127.0.0.1
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000033s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+3306/tcp open  mysql   MySQL 5.5.23
+| mysql-info: 
+|   Protocol: 10
+|   Version: 5.5.23
+|   Thread ID: 1189
+|   Capabilities flags: 63487
+|   Some Capabilities: FoundRows, LongColumnFlag, Support41Auth, InteractiveClient, ConnectWithDatabase, LongPassword, Speaks41ProtocolOld, SupportsLoadDataLocal, Speaks41ProtocolNew, SupportsCompression, ODBCClient, IgnoreSigpipes, IgnoreSpaceBeforeParenthesis, SupportsTransactions, DontAllowDatabaseTableColumn, SupportsMultipleResults, SupportsMultipleStatments, SupportsAuthPlugins
+|   Status: Autocommit
+|   Salt: V(b7)fGq&dGs/0C@Ws]V
+|_  Auth Plugin Name: mysql_native_password
+Device type: general purpose
+Running: Linux 5.X|6.X
+OS CPE: cpe:/o:linux:linux_kernel:5 cpe:/o:linux:linux_kernel:6
+OS details: Linux 5.0 - 6.2
+Network Distance: 0 hops
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Nov 28 19:27:30 2025 -- 1 IP address (1 host up) scanned in 1.53 seconds
