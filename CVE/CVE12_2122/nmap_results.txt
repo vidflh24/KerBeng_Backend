@@ -1,1 +1,0 @@
-# Nmap 7.98 scan initiated Thu Nov 27 08:17:06 2025 as: nmap -sV -sC -Pn -O -oN CVE/CVE12_2122/nmap_results.txt 192.168.100.178
