@@ -60,6 +60,7 @@ class CVE12_2122(APentest):
         enum.sourceFile = self.scnOutFile
         enum.enumTarget()
         self.enumOutFile = enum.outEnumFile
+        log.debugger(enum.dataEnum)
         self.bufHub = enum.dataEnum
         del enum
 

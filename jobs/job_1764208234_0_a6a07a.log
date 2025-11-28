@@ -1,0 +1,34 @@
+ __  __       ____   ___  _       _____            _       _ _   
+|  \/  |_   _/ ___| / _ \| |     | ____|_  ___ __ | | ___ (_) |_ 
+| |\/| | | | \___ \| | | | |     |  _| \ \/ / '_ \| |/ _ \| | __|
+| |  | | |_| |___) | |_| | |___  | |___ >  <| |_) | | (_) | | |_ 
+|_|  |_|\__, |____/ \__\_\_____| |_____/_/\_\ .__/|_|\___/|_|\__|
+        |___/                               |_|                  
+
+self._targets: ['192.168.100.178']
+local_map: {'192.168.100.178': '192.168.100.178'}
+chosen local IP: 192.168.100.178
+[DEBUG] self._lHost = '192.168.100.178'
+Auto Pentester says I'm scanning target ['192.168.100.178'] from 192.168.100.178
+[DEBUG] nmap_command = ['sudo', '-S', 'nmap', '-sV', '-sC', '-Pn', '-O', '-oN', 'CVE/CVE12_2122/nmap_results.txt', '192.168.100.178']
+[DEBUG] pindai.outScanFile = 'CVE/CVE12_2122/nmap_results.txt'
+Auto Pentester says I'm enumerating network target
+[DEBUG] self.sourceFile = 'CVE/CVE12_2122/nmap_results.txt'
+
+hasilparse {'(192.168.100.178)': [{'port': '3306', 'protocol': 'tcp', 'state': 'filtered', 'service': 'mysql', 'info': {'service': 'mysql'}}], 'mysql': []}
+
+[DEBUG] enum.dataEnum = []
+Traceback (most recent call last):
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/Client.py", line 35, in <module>
+    main()
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/Client.py", line 32, in main
+    client_code(pentest_cls(), params)
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/Client.py", line 16, in client_code
+    autoPentest.startPentest(params)
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/AutoPentest/APentest.py", line 89, in startPentest
+    self.enumerating(params)
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/CVE/CVE12_2122/CVE12_2122.py", line 64, in enumerating
+    self.bufHub = enum.dataEnum
+  File "/home/vidy/KerBeng/Baru/KerBeng_Backend/AutoPentest/APentest.py", line 39, in bufHub
+    raise ValueError("Input harus Dictionary")
+ValueError: Input harus Dictionary
