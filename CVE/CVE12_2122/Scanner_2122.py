@@ -10,7 +10,7 @@ class NmapScanner(Scanner):
     def __init__(self) -> None:
         super().__init__()
         self._scanParams = {
-            "scnParams":["sudo", "-S","nmap", "-sV", "-sC", "-Pn", "-O"],
+            "scnParams":["sudo", "-S","nmap", "-sV", "-Pn", "-O"],
             "oputFile":"CVE/CVE12_2122/nmap_results.txt"
         }
     

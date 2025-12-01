@@ -1,7 +1,5 @@
 <div x-data="progressTable()">
-  <div id="progress-table" x-init="lucide.createIcons()" data-jobs='{{ jobs | tojson | safe }}'
-    hx-get="{{ url_for('htmx_progress_table') }}" hx-trigger="load, every 10s" hx-swap="morphdom:outerHTML"
-    hx-target="#progress-table"> {% if jobs %}
+  <div id="progress-table" x-init="lucide.createIcons()" data-jobs='{{ jobs | tojson | safe }}'> {% if jobs %}
     <div class="overflow-x-auto rounded-lg border border-gray-100">
       <table class="min-w-full table-fixed divide-y divide-gray-200 text-sm">
         <thead class="bg-Primary-100 text-Primary-500 uppercase text-xs font-semibold">

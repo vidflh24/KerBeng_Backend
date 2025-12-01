@@ -16,7 +16,7 @@
 </div>
 
 <!-- Section: Overview Cards -->
-<div id="overview-cards" hx-get="{{ url_for('htmx_stats') }}" hx-trigger="load, every 10s" hx-swap="morphdom:outerHTML"
+<div id="overview-cards" hx-get="{{ url_for('htmx_stats') }}" hx-trigger="load" hx-swap="morphdom:outerHTML"
   hx-target="#overview-cards" class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 will-change-transform">
 
   <!-- Placeholder (initial load) -->
@@ -154,7 +154,7 @@
     window._autoRefreshTimerProgress = setInterval(() => {
       const sortBy = table.dataset.sortBy || 'created_at';
       const order = table.dataset.order || 'desc';
-      const search = document.querySelector("input[name='search']")?.value || '';
+      const search = document.querySelector("input[name='progress_search']")?.value || '';
 
       htmx.ajax('GET', `/htmx/progress-table?sort_by=${sortBy}&order=${order}&search=${encodeURIComponent(search)}`, {
         target: '#progress-table',
@@ -164,9 +164,13 @@
   };
 
   window.stopAutoRefresh = function () {
-    if (window._autoRefreshTimer) {
-      clearInterval(window._autoRefreshTimer);
-      window._autoRefreshTimer = null;
+    if (window._autoRefreshTimerProjects) {
+      clearInterval(window._autoRefreshTimerProjects);
+      window._autoRefreshTimerProjects = null;
+    }
+    if (window._autoRefreshTimerProgress) {
+      clearInterval(window._autoRefreshTimerProgress);
+      window._autoRefreshTimerProgress = null;
     }
   };
 

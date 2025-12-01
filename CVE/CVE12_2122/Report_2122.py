@@ -111,7 +111,7 @@ class CReport(Report):
             "The assessment involved:\n"
             "Phase 1 – Scanning:\n"
             "Service discovery and fingerprinting using Nmap tool:\n"
-            f"nmap -sV -sC -Pn -O -oN nmap_results.txt {self._data['IP']}\n\n"
+            f"nmap -sV -Pn -O -oN nmap_results.txt {self._data['IP']}\n\n"
             "Phase 2 – Enumeration:\n"
             "Version enumeration of the MySQL service.\n\n"
             "Phase 3 – Version Analysis:\n"
