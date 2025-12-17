@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any
-import subprocess
+import subprocess, os
 
 class Scanner(ABC):
     """
@@ -25,6 +25,9 @@ class Scanner(ABC):
     
     @outScanFile.setter
     def outScanFile(self, osf):
+        dirpath = os.path.dirname(osf)
+        if dirpath:
+            os.makedirs(dirpath, exist_ok=True)
         self._outputScanFile = osf
 
     @property
@@ -37,7 +40,7 @@ class Scanner(ABC):
 
     @property
     def targetPorts(Self):
-        return Self._targetPort
+        return self._targetPort
     
     @targetPorts.setter
     def targetPorts(self, ports):

@@ -6,3 +6,5 @@ enum_*
 nmap_*
 vulnScanReport.txt
 CVE/CVE*/*_exploit.txt
+AutoPentest/testKeyring.py
+Run/

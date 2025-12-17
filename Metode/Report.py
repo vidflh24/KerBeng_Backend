@@ -5,6 +5,7 @@ from docx import Document
 from docx.shared import Pt, Cm, Inches
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from datetime import date
+from pathlib import Path
 import subprocess
 
 class Report(ABC):
@@ -27,8 +28,20 @@ class Report(ABC):
         self.add_vulnerability_scanning()
         self.add_vulnerability_exploit()
         self.add_recommendation()
-        self._document.save(f"{self.outRepFile}Pentesting_Report.docx")
-        subprocess.run(["unoconv", "-f", "pdf", f"{self.outRepFile}Pentesting_Report.docx"], stderr=subprocess.DEVNULL)
+
+        out_dir = Path(self.outRepFile)
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        docx_path = out_dir / "Pentesting_Report.docx"
+        pdf_path  = out_dir / "Pentesting_Report.pdf"
+
+        self._document.save(docx_path)
+
+        subprocess.run(
+            ["unoconv", "-f", "pdf", str(docx_path)],
+            stderr=subprocess.DEVNULL
+        )
+
         print("Pentesting report generated successfully")
 
     @property

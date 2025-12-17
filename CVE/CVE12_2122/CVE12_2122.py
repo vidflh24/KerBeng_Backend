@@ -8,6 +8,7 @@ from .Exploit_2122 import CExploit
 from .Report_2122 import CReport
 from utils import PentestUtils as pu
 from utils import Logger
+from pathlib import Path
 
 log = Logger()
 
@@ -48,20 +49,27 @@ class CVE12_2122(APentest):
                 # optionally: exit / raise, so we don't go to enumeration
                 raise RuntimeError("Scan failed, aborting pentest flow")
 
-            log.debugger(pindai.outScanFile)
+            #log.debugger(pindai.outScanFile)
             self.scnOutFile = pindai.outScanFile
         del pindai
 
-
     def enumerating(self, params) -> Enumerator:
         print("Auto Pentester says I'm enumerating network target")
+
         enum = CEnum()
-        enum.outEnumFile = "CVE/CVE12_2122/enum_results.txt"
-        enum.sourceFile = self.scnOutFile
+
+        scan_path = Path(self.scnOutFile)              # Run/127.0.0.1/nmap_results.txt
+        run_dir = scan_path.parent                    # Run/127.0.0.1
+        enum_out = run_dir / "enum_results.txt"
+
+        enum.sourceFile = str(scan_path)
+        enum.outEnumFile = str(enum_out)
+
         enum.enumTarget()
-        self.enumOutFile = enum.outEnumFile
-        log.debugger(enum.dataEnum)
+
+        self.enumOutFile = str(enum_out)
         self.bufHub = enum.dataEnum
+
         del enum
 
     def vulnerAnalysist(self, params) -> VulnerAnalist:
@@ -69,25 +77,28 @@ class CVE12_2122(APentest):
         vulnAnls = CVulnAnalist()
         vulnAnls.targets = self.enumOutFile
         vulnAnls.bufHub = self.bufHub
-        vulnAnls.outAnalFile = "CVE/CVE12_2122/analyst_results.txt"
+        run_dir = Path(self.enumOutFile).parent
+        vulnAnls.outAnalFile = str(run_dir / "analyst_results.txt")
         vulnAnls.startAnalising()
         self.setItem("vulnList", vulnAnls.listVulners)
-        log.debugger(vulnAnls.listVulners)
-        log.debugger(vulnAnls.targets)
+        #log.debugger(vulnAnls.listVulners)
+        #log.debugger(vulnAnls.targets)
         del vulnAnls
 
     def exploitingTarget(self, params) -> Exploit:
         print("Auto Pentester says I'm exploiting network target")
         exp = CExploit()
-        exp.outExpFile = "CVE/CVE12_2122/"
-        log.debugger(self.getItem("vulnList"))
+        run_dir = Path(self.enumOutFile).parent
+        exp.outExpFile = str(run_dir)
+        #log.debugger(self.getItem("vulnList"))
         exp.makePayload(self.getItem("vulnList"))
         exp.startExploit()
         del exp
     
     def reporting(self, params):
         rep = CReport()
-        rep.outRepFile = "CVE/CVE12_2122/"
+        run_dir = Path(self.enumOutFile).parent
+        rep.outRepFile = str(run_dir)
         print(f"data :\n {self.bufHub}")
         rep.dataReport = self.bufHub
         rep.generate_report()

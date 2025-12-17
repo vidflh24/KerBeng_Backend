@@ -11,57 +11,59 @@ class NmapScanner(Scanner):
         super().__init__()
         self._scanParams = {
             "scnParams":["sudo", "-S","nmap", "-sV", "-Pn", "-O"],
-            "oputFile":"CVE/CVE12_2122/nmap_results.txt"
+            #"oputFile":"CVE/CVE12_2122/nmap_results.txt"
         }
     
     def scanTarget(self, prm):
-        log.debugger(prm)
         self.targetIP = [prm]
-        p = Path(f'Run/{prm}')
-        p.mkdir(parents=True, exist_ok=True)
-        self.outScanParam = self._scanParams['oputFile']
-        self.outScanFile = self._scanParams['oputFile']
-        #self.params = self._scanParams['scnParams']
-        Path(self.outScanFile).parent.mkdir(parents=True, exist_ok=True)
-        #print(f"target IP: {self.targetIP}")
+
+        run_dir = Path("Run") / prm
+        run_dir.mkdir(parents=True, exist_ok=True)
+
+        out_file = run_dir / "nmap_results.txt"
+        self.outScanFile = str(out_file)
+        self.outScanParam = str(out_file)
+
         base_params = self._scanParams["scnParams"].copy()
-        #nmap_command = self.params
-        #nmap_command.extend(self.targetIP)
-        #nmap_command.extend(self.outScanParam)
-        #print(f"nmap_command is: {nmap_command}")
+
         nmap_command = (
             base_params
-            + ["-oN", self.outScanFile]   # tell nmap to write normal output to file
+            + ["-oN", self.outScanFile]
             + self.targetIP
         )
+
         result_data = {
-            'success' : False,
-            'output' : '',
-            'error' : '',
-            'message' : ''
+            'success': False,
+            'output': '',
+            'error': '',
+            'message': ''
         }
-        log.debugger(nmap_command)
+
         sudo_pass = keyring.get_password("system", "sudo")
-        #print(f"[DEBUG] sudo_pass from keyring: {repr(sudo_pass)}")
-        
+
         try:
-            result = subprocess.run(nmap_command,
-                                    input=sudo_pass,
-                                    capture_output=True,
-                                    text=True,
-                                    check=True)
+            result = subprocess.run(
+                nmap_command,
+                input=sudo_pass,
+                capture_output=True,
+                text=True,
+                check=True
+            )
             result_data['success'] = True
             result_data['output'] = result.stdout
-            result_data['message'] = "Scan complated successfully."
+            result_data['message'] = "Scan completed successfully."
+
         except FileNotFoundError as ef:
             result_data['error'] = str(ef)
-            result_data['message'] = f"Nmap not found {ef}.\nPlease make sure Nmap is installed and in your system's PATH."
+            result_data['message'] = "Nmap not found."
+
         except subprocess.CalledProcessError as cpe:
             result_data['error'] = cpe.stderr
-            result_data['message'] = f"CalledProcessError: Command failed with return code {cpe.returncode}"
+            result_data['message'] = f"Command failed ({cpe.returncode})"
+
         except Exception as e:
             result_data['error'] = str(e)
-            result_data['message'] = "CVE12_2122's IoC: MySQL is not detected"
-            print(f"{e}.eor\n")
+            result_data['message'] = "MySQL not detected"
+
         return result_data
-    
+        

@@ -1,5 +1,6 @@
 from Metode import *
 import re
+from pathlib import Path
 from utils import Logger
 
 log = Logger()
@@ -23,44 +24,45 @@ class CVulnAnalist(VulnerAnalist):
         }
 
     def startAnalising(self):
+        run_dir = Path(self.targets).parent   # Run/<ip>
+
         with open(self.targets, "r") as file:
             lines = file.readlines()
+
             for line in lines:
                 data = line.strip().split()
-                if len(data) >= 2:
+                if len(data) >= 4:
                     ip = data[0]
                     port = data[1]
                     service = data[2]
                     version = f"{data[2]} {data[3]}"
+
                     print(f"Processing Check Vulnerability: {ip} {port} {version}")
                     self.isVulner = False
-                    print("STEPPING TO VERSION CHECK")
-                    log.debugger(self.is_version_vulnerable(ip, version, service))
-                    if self.is_version_vulnerable(ip, version, service):
-                        vulnList = [ip, port]
-                        log.debugger(vulnList)
-                        self.addToList(vulnList)
-                        print(f"Target {self.listVulners} is seem to be vulnerable :)")
 
+                    if self.is_version_vulnerable(run_dir, ip, version, service):
+                        vulnList = [ip, port]
+                        self.addToList(vulnList)
+                        print(f"Target {ip} seems to be vulnerable :)")
+
+        # write analyst_results.txt
         with open(self.outAnalFile, "w") as outFile:
             for line in lines:
                 data = line.strip().split()
-                if len(data) >= 2:
+                if len(data) >= 1:
                     ip = data[0]
-                    try:
-                        with open(f"CVE/CVE12_2122/{ip}_vuln.txt", "r") as vulnFile:
-                            outFile.write(f"\n\n=========== Vulnerability scanning result of target {ip} \n\n")
-                            outFile.write(vulnFile.read())
-                    except FileNotFoundError:
-                        print(f"No vulnerability file found for {ip}")
+                    vuln_file = run_dir / f"{ip}_vuln.txt"
+                    if vuln_file.exists():
+                        outFile.write(f"\n\n=========== Vulnerability scanning result of target {ip} \n\n")
+                        outFile.write(vuln_file.read_text())
 
     def parse_version(self, version_str):
         return tuple(map(int, re.findall(r'\d+', version_str)))
 
-    def is_version_vulnerable(self, ip, version_str, service):
+    def is_version_vulnerable(self, run_dir, ip, version_str, service):
         version_match = re.search(r'(\d+\.\d+(\.\d+)?)', version_str)
         if not version_match:
-            return self.isVulner 
+            return self.isVulner
 
         version_num = version_match.group(1)
         version_tuple = self.parse_version(version_num)
@@ -71,14 +73,15 @@ class CVulnAnalist(VulnerAnalist):
         elif "mariadb" in service.lower():
             vuln_versions = self._vulnerable_mariadb_versions
         else:
-            return self.isVulner   # not MySQL or MariaDB
+            return self.isVulner
 
         if major_minor in vuln_versions:
             _, upper_bound = vuln_versions[major_minor]
             if self.parse_version(version_num) < self.parse_version(upper_bound):
                 self.isVulner = True
                 output = f"{service} on {version_str} seems to be vulnerable"
-                with open(f"CVE/CVE12_2122/{ip}_vuln.txt", "w") as f:
-                    f.write(output)
 
-        return self.isVulner 
+                vuln_file = run_dir / f"{ip}_vuln.txt"
+                vuln_file.write_text(output)
+
+        return self.isVulner
